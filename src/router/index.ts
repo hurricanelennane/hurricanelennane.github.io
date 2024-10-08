@@ -13,7 +13,6 @@ const routes = [
     name: 'Blog',
     component: BlogPost
   }
-  // Future routes like Apps/Games can be added here
 ]
 
 const router = createRouter({
