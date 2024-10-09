@@ -1,12 +1,8 @@
-# Simple workflow for deploying static content to GitHub Pages
 name: Deploy Vue project to Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ['main']
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 permissions:
@@ -28,17 +24,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Install dependencies and build the Vue project
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Specify your Node.js version
+
       - name: Install dependencies
         run: npm install
+
       - name: Build project
         run: npm run build
 
-      # Upload the built `dist` directory
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload the dist folder instead of the entire repository
           path: 'dist'
 
       - name: Deploy to GitHub Pages
