@@ -11,5 +11,9 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest'
+  },
+  rules: {
+    // Disable the multi-word component names rule
+    'vue/multi-word-component-names': 'off'
   }
 }
