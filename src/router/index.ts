@@ -1,7 +1,9 @@
 // src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
-import BlogPost from '../views/BlogPost.vue';
+import BlogPage from '../views/BlogPage.vue';
+import AppsPage from '../views/AppsPage.vue';
+import GamesPage from '../views/GamesPage.vue';
 
 const routes = [
   {
@@ -12,7 +14,17 @@ const routes = [
   {
     path: '/blog',
     name: 'Blog',
-    component: BlogPost,
+    component: BlogPage,
+  },
+  {
+    path: '/apps',
+    name: 'Apps',
+    component: AppsPage,
+  },
+  {
+    path: '/games',
+    name: 'Games',
+    component: GamesPage,
   },
 ];
 

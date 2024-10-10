@@ -24,7 +24,7 @@ export default defineComponent({
 
 <style scoped>
 .navbar {
-  background-color: #151313;
+  background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px 0;
   position: sticky;
