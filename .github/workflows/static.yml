@@ -6,7 +6,6 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
   pages: write
   id-token: write
 
@@ -29,6 +28,14 @@ jobs:
         with:
           node-version: '20' # Specify your Node.js version
 
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm install
 
@@ -38,7 +45,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist'
+          path: 'dist' # Make sure this matches your build output directory
 
       - name: Deploy to GitHub Pages
         id: deployment
