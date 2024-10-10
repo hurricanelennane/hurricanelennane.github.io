@@ -6,7 +6,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 // Remove vueDevTools if not needed in production
 
 export default defineConfig(({ command, mode }) => ({
-  base: mode === 'production' ? '/zlennane/' : '/',
+  base: '/',
   plugins: [
     vue(),
     vueJsx(),
