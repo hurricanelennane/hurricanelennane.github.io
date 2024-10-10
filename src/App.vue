@@ -22,7 +22,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style>
-/* You can keep global styles here or in src/assets/styles.css */
-</style>
