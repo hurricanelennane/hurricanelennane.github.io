@@ -8,13 +8,99 @@
       </div>
     </div>
   </section>
+
+  <section>
+    <h2>Dropdown with Badge Guide</h2>
+    <div class="dropdown">
+      <button
+        class="dropbtn"
+        @click="toggleDropdown"
+        @keydown.down.prevent="navigateOptions('down')"
+        @keydown.up.prevent="navigateOptions('up')"
+        @keydown.enter.prevent="selectFocusedOption"
+      >
+        Dropdown
+        <span class="badge">3</span>
+      </button>
+      <ul class="dropdown-content" :style="{ display: isDropdownOpen ? 'block' : 'none' }">
+        <li
+          v-for="(option, index) in options"
+          :key="index"
+          :class="{ 'focused-option': focusedIndex === index }"
+          @click="selectOption(index)"
+          @mouseenter="focusedIndex = index"
+        >
+          {{ option }}
+        </li>
+      </ul>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 
 export default defineComponent({
-  name: 'BlogPost'
+  name: 'BlogPost',
+  setup() {
+    const isDropdownOpen = ref(false)
+    const options = ref(['Option 1', 'Option 2', 'Option 3'])
+    const focusedIndex = ref(-1)
+
+    // Toggle dropdown visibility
+    const toggleDropdown = () => {
+      isDropdownOpen.value = !isDropdownOpen.value
+      if (isDropdownOpen.value) focusedIndex.value = 0 // Set focus to the first option when opened
+    }
+
+    // Handle keyboard navigation
+    const navigateOptions = (direction: 'up' | 'down') => {
+      if (direction === 'down') {
+        focusedIndex.value = (focusedIndex.value + 1) % options.value.length
+      } else if (direction === 'up') {
+        focusedIndex.value = (focusedIndex.value - 1 + options.value.length) % options.value.length
+      }
+    }
+
+    // Handle selecting an option by index
+    const selectOption = (index: number) => {
+      console.log(`Selected option: ${options.value[index]}`)
+      isDropdownOpen.value = false
+    }
+
+    // Select focused option on Enter key press
+    const selectFocusedOption = () => {
+      if (focusedIndex.value >= 0 && focusedIndex.value < options.value.length) {
+        selectOption(focusedIndex.value)
+      }
+    }
+
+    // Close dropdown if clicked outside
+    const handleClickOutside = (event: MouseEvent) => {
+      const dropdown = document.querySelector('.dropdown')
+      if (dropdown && !dropdown.contains(event.target as Node)) {
+        isDropdownOpen.value = false
+      }
+    }
+
+    onMounted(() => {
+      document.addEventListener('click', handleClickOutside)
+    })
+
+    onUnmounted(() => {
+      document.removeEventListener('click', handleClickOutside)
+    })
+
+    return {
+      isDropdownOpen,
+      options,
+      focusedIndex,
+      toggleDropdown,
+      navigateOptions,
+      selectOption,
+      selectFocusedOption
+    }
+  }
 })
 </script>
 
@@ -42,6 +128,61 @@ export default defineComponent({
   font-size: 1.2rem;
   line-height: 1.8;
   margin: 0;
+}
+
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  font-size: 12px;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+/* Style for the focused option */
+.focused-option {
+  background-color: #ddd;
+}
+
+/* Hover effect for mouse interactions */
+.dropdown-content li:hover {
+  background-color: #ddd;
 }
 
 /* Responsive Design */
@@ -77,5 +218,9 @@ export default defineComponent({
     font-size: 0.95rem;
     line-height: 1.4;
   }
+}
+
+.focused-option {
+  background-color: #ddd;
 }
 </style>
