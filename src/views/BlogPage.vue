@@ -1,4 +1,3 @@
-<!-- src/components/BlogPost.vue -->
 <template>
   <section class="blog-section">
     <div class="container">
@@ -35,6 +34,17 @@
       </ul>
     </div>
   </section>
+
+  <section>
+    <h2>Guide Injection</h2>
+    <div class="iframe-container">
+      <iframe
+        class="guide-iframe"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -47,13 +57,11 @@ export default defineComponent({
     const options = ref(['Option 1', 'Option 2', 'Option 3'])
     const focusedIndex = ref(-1)
 
-    // Toggle dropdown visibility
     const toggleDropdown = () => {
       isDropdownOpen.value = !isDropdownOpen.value
-      if (isDropdownOpen.value) focusedIndex.value = 0 // Set focus to the first option when opened
+      if (isDropdownOpen.value) focusedIndex.value = 0
     }
 
-    // Handle keyboard navigation
     const navigateOptions = (direction: 'up' | 'down') => {
       if (direction === 'down') {
         focusedIndex.value = (focusedIndex.value + 1) % options.value.length
@@ -62,20 +70,17 @@ export default defineComponent({
       }
     }
 
-    // Handle selecting an option by index
     const selectOption = (index: number) => {
       console.log(`Selected option: ${options.value[index]}`)
       isDropdownOpen.value = false
     }
 
-    // Select focused option on Enter key press
     const selectFocusedOption = () => {
       if (focusedIndex.value >= 0 && focusedIndex.value < options.value.length) {
         selectOption(focusedIndex.value)
       }
     }
 
-    // Close dropdown if clicked outside
     const handleClickOutside = (event: MouseEvent) => {
       const dropdown = document.querySelector('.dropdown')
       if (dropdown && !dropdown.contains(event.target as Node)) {
@@ -175,17 +180,26 @@ export default defineComponent({
   cursor: pointer;
 }
 
-/* Style for the focused option */
 .focused-option {
   background-color: #ddd;
 }
 
-/* Hover effect for mouse interactions */
 .dropdown-content li:hover {
   background-color: #ddd;
 }
 
-/* Responsive Design */
+.iframe-container {
+  margin-top: 20px;
+}
+
+.guide-iframe {
+  width: 100%;
+  height: 500px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 768px) {
   .blog-title {
     font-size: 2rem;
@@ -218,9 +232,5 @@ export default defineComponent({
     font-size: 0.95rem;
     line-height: 1.4;
   }
-}
-
-.focused-option {
-  background-color: #ddd;
 }
 </style>
